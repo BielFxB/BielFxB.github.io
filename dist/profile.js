@@ -10,7 +10,7 @@ window.PROFILE = {
  github: 'https://github.com/BielFxB',
  experience: [
   { title: 'Professor de Robótica · MyRobot School · mar/2025–atual', description: 'Ensino de lógica de programação, algoritmos e eletrônica básica. Orientação de projetos com Arduino, ESP8266/ESP32, IoT e sistemas embarcados. Criação do GamyCoins para gamificação das aulas.' },
-  { title: 'Estagiário de TI (não remunerado) · Unesp, Rosana · 2022–2025', description: 'Suporte técnico, configuração de sistemas operacionais e manutenção de infraestrutura de redes. Apoio ao gerenciamento de servidores e documentação de rotinas.' },
+  { title: 'Estagiário de TI · Rosana · 2022–2025', description: 'Suporte técnico, configuração de sistemas operacionais e manutenção de infraestrutura de redes. Apoio ao gerenciamento de servidores e documentação de rotinas.' },
   { title: 'Técnico autônomo de TI', description: 'Atuação em suporte e infraestrutura de TI.' }
  ],
  education: [{ title: 'Bacharelado em Sistemas de Informação · UFGD · 2025–2028 (previsto)', description: 'Membro ativo do Centro Acadêmico de Sistemas de Informação — CASIN.' }],
