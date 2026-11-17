@@ -6,7 +6,6 @@
   const list = document.querySelector('#guest-stars');
   const status = document.querySelector('#guest-status');
   const own = document.querySelector('#guest-own');
-  const ownName = document.querySelector('#guest-own-name');
   const removeButton = document.querySelector('#guest-delete');
   const config = window.GUESTBOOK_CONFIG || {};
   let busy = false;
@@ -47,7 +46,6 @@
   function controls() {
     form.hidden = Boolean(mine);
     own.hidden = !mine;
-    ownName.textContent = mine ? 'Você já deixou uma estrela como ' + mine.name + '. Apague para assinar novamente.' : '';
     input.disabled = button.disabled = removeButton.disabled = busy || !ready;
   }
 

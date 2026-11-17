@@ -8,6 +8,7 @@
 .coins-thumb{background:repeating-linear-gradient(0deg,transparent 0 19px,#9580ad17 19px 20px),repeating-linear-gradient(90deg,#201a30 0 19px,#9580ad17 19px 20px);flex-direction:column}.coins-thumb>span{border:4px double #e5d1a1;border-radius:50%;color:#e5d1a1;box-shadow:4px 3px #8b6b51;font:bold 36px/1 Georgia,serif;padding:5px 12px;transform:rotate(-12deg)}.coins-thumb b,.leaf-thumb b{font-size:12px;letter-spacing:3px;color:#d1bedc;margin-top:9px}.leaf-thumb{background:radial-gradient(ellipse,#345236,#112118 75%);flex-direction:column}.leaf-thumb>span{font:72px/.8 Georgia,serif;color:#b5dca5;filter:drop-shadow(4px 3px #536045)}.leaf-thumb b{color:#bad9ad}
 
 /* Readable text and controls while preserving the personal-web layout. */
+#guest-delete{width:auto;min-height:28px;padding:3px 8px;margin:8px 12px;font-size:11px;line-height:1.5}
 @media screen{
   .bar{gap:8px;overflow-wrap:anywhere}
   .hero p{max-width:340px}
