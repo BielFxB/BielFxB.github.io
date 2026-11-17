@@ -287,9 +287,13 @@
               <input id="guest-name" maxlength="32" placeholder="viajante da web" required>
               <button class="retro-button" type="submit">deixar uma estrela ✦</button>
             </form>
+            <div id="guest-own" hidden>
+              <p id="guest-own-name" class="tiny"></p>
+              <button id="guest-delete" class="retro-button" type="button">apagar minha estrela</button>
+            </div>
             <div id="guest-stars" aria-live="polite"></div>
             <p id="guest-status" class="tiny" role="status"></p>
-            <small>seu nome ficará público neste livro de visitas</small>
+            <small>uma estrela por navegador · seu nome ficará público</small>
           </section>
           <div class="eyes" aria-hidden="true">◉ ◉<span>tem alguém por aqui…</span></div>
         </aside>

@@ -30,22 +30,26 @@ Edite `dist/profile.js` para atualizar apresentação, experiências, formação
 ## Configurar o livro de visitas
 
 1. Crie ou selecione um projeto no [Supabase](https://supabase.com/dashboard).
-2. Abra **SQL Editor**, cole o conteúdo de `supabase/guestbook.sql` e execute. O script cria a tabela, ativa RLS e permite apenas duas funções públicas: listar as três últimas visitas e assinar com nome validado. Visitantes não têm acesso direto à tabela, nem permissão para editar ou excluir registros.
+2. Abra **SQL Editor**, cole o conteúdo de `supabase/guestbook.sql` e execute. Para atualizar um banco da versão anterior, execute novamente o arquivo inteiro. O script preserva as assinaturas, ativa RLS e permite quatro operações: listar as três últimas visitas, consultar a própria assinatura, assinar e apagar a própria assinatura. Visitantes não têm acesso direto à tabela, nem permissão para editar ou excluir registros alheios.
 3. Em **Settings → API Keys**, copie a chave **publishable** (ou `anon` legada). Copie também a URL do projeto na área de conexão/Data API.
 4. Preencha `url` e `publishableKey` em `dist/guestbook-config.js`. Esse arquivo é público por intenção; nunca use uma chave `secret` ou `service_role`.
 5. Abra o site via HTTP e teste a assinatura em dois navegadores. Publique os arquivos pelo fluxo normal do GitHub Pages.
 
 Sem configuração válida, o formulário fica desabilitado com um aviso. Não há fallback local que simule um envio bem-sucedido. Os nomes antigos em `localStorage` não são enviados ao banco automaticamente. Novas assinaturas ficam visíveis aos outros visitantes ao abrir/recarregar a página.
 
-Proteção básica aplicada no banco: até 10 assinaturas por minuto no total e uma por nome (sem diferenciar maiúsculas) a cada 24 horas. Não exige login e não identifica pessoas; alguém pode trocar de nome. Para resistir a ataques automatizados, será necessário adicionar CAPTCHA validado em uma Edge Function. Não há CAPTCHA nesta versão.
+Cada navegador pode manter uma única assinatura. Depois de assinar, o formulário dá lugar ao botão **apagar minha estrela**; a exclusão libera imediatamente uma nova assinatura, inclusive com o mesmo nome. O banco aplica a restrição com índice único e valida a identificação também nas funções públicas. Mudar apenas o nome não permite uma segunda assinatura.
+
+A identificação é um token aleatório de 256 bits salvo em `localStorage`. Somente seu hash SHA-256 fica no banco; o token e o hash não são retornados na lista pública. Sem acesso ao armazenamento local, o formulário fica desabilitado para evitar perder o direito de excluir a assinatura. Não há login: trocar de navegador, limpar os dados locais ou forjar outra identificação permite uma nova assinatura e perde o acesso à anterior. Assinaturas anteriores a esta atualização não tinham identificação e só podem ser removidas pelo administrador; não são vinculadas a visitantes pelo nome.
+
+Permanece a proteção básica de até 10 assinaturas presentes no banco por minuto. Para resistir a ataques automatizados, será necessário adicionar CAPTCHA validado em uma Edge Function. Não há CAPTCHA nesta versão.
 
 Para moderar, use o Table Editor do Supabase e exclua entradas indesejadas. Informe aos visitantes que o nome ficará público; não peça dados sensíveis.
 
 ## Validação
 
-A integração do livro de visitas foi verificada no Microsoft Edge com Playwright e API simulada: configuração ausente, lista vazia, envio, renderização segura de texto, data, leitura em dois contextos independentes, limite de envio, falha de rede, recuperação e ausência de rolagem horizontal em 390px. Execute `node ../.qa/guestbook-test.cjs` na pasta do projeto para repetir essa verificação local com API simulada (independente da configuração real).
+Em 17/11/2026, a versão com assinatura única foi verificada no Microsoft Edge com Playwright e Supabase real: envio, bloqueio de uma segunda assinatura mesmo mudando o nome, persistência após recarregar, isolamento entre navegadores, exclusão própria, nova assinatura imediatamente após apagar, remoção da função antiga sem identificação e ausência de rolagem horizontal em 390px. Os registros desse teste foram removidos. A verificação local está em `../.qa/guestbook-owner-test.cjs`; executá-la cria e remove assinaturas de teste no Supabase configurado.
 
-Em 17/11/2026, a conexão real com Supabase também foi validada: leitura, assinatura pelo formulário, persistência após recarregar, leitura em outro contexto de navegador, bloqueio de assinatura repetida, rejeição de nome vazio e bloqueio de leitura direta da tabela. Uma assinatura pública identificada como teste foi criada para verificar o envio. A publicação dos arquivos no GitHub Pages é uma etapa separada.
+A versão anterior foi verificada com API simulada e real, incluindo renderização segura de texto, falha de rede, rejeição de nome vazio e bloqueio de leitura direta da tabela. Os scripts antigos de simulação ainda usam o contrato anterior da API.
 
 Verificações anteriores do restante do site cobriram cinco rotas em desktop e celular, currículo em PDF, contatos, diálogos, visitante e controles de movimento. O script antigo `qa.cjs` ainda contém expectativas do livro local e não valida esta integração.
 
